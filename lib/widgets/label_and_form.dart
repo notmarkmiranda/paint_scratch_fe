@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:paint_scratch_fe/config/colors.dart';
+import 'package:paint_scratch_fe/providers/game_information.dart';
+
 
 class LabelAndForm extends StatelessWidget {
   final String hintText;
   final TextInputAction textInputAction;
   final Function onEditingComplete;
   final FocusNode focusNode;
+  final String teamKey;
 
   LabelAndForm({
     @required this.hintText,
+    @required this.teamKey,
     this.textInputAction,
     this.onEditingComplete,
     this.focusNode,
@@ -17,6 +22,8 @@ class LabelAndForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gameInformation = Provider.of<GameInformation>(context);
+
     return Container(
       padding: EdgeInsets.only(top: 15, left: 20, right: 20),
       child: Column(
@@ -25,8 +32,10 @@ class LabelAndForm extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 5),
             child: TextField(
-              onChanged: (text) {print(text);},
               textInputAction: textInputAction,
+              onChanged: (team) {
+                gameInformation.setTeam(teamKey, team);
+              },
               onEditingComplete: onEditingComplete,
               focusNode: focusNode,
               style: TextStyle(color: AppColors.fontPrimary),

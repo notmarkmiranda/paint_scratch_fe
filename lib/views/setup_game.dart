@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:paint_scratch_fe/providers/game_information.dart';
+import 'package:paint_scratch_fe/views/score_game.dart';
 import 'package:paint_scratch_fe/widgets/label_and_form.dart';
 import 'package:paint_scratch_fe/widgets/label_and_count.dart';
 import 'package:paint_scratch_fe/config/colors.dart';
+
 
 class SetupGame extends StatefulWidget {
   @override
@@ -11,17 +15,19 @@ class SetupGame extends StatefulWidget {
 
 class _SetupGameState extends State<SetupGame> {
   FocusNode _homeTeamFocusNode;
-  bool _checkboxValue;
+  bool _combineFoulsStrikes;
 
   @override
   void initState() {
     super.initState();
     _homeTeamFocusNode = FocusNode();
-    _checkboxValue = true;
+    _combineFoulsStrikes = true;
   }
 
   @override
   Widget build(BuildContext context) {
+    final gameInformation = Provider.of<GameInformation>(context);
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -39,11 +45,13 @@ class _SetupGameState extends State<SetupGame> {
           ),
           LabelAndForm(
             hintText: 'Away Team',
+            teamKey: 'awayTeam',
             textInputAction: TextInputAction.next,
             onEditingComplete: () => _homeTeamFocusNode.requestFocus(),
           ),
           LabelAndForm(
             hintText: 'Home Team',
+            teamKey: 'homeTeam',
             focusNode: _homeTeamFocusNode,
           ),
           LabelAndCount(
@@ -61,9 +69,9 @@ class _SetupGameState extends State<SetupGame> {
             child: Row(
               children: <Widget>[
                 Checkbox(
-                  value: _checkboxValue,
+                  value: _combineFoulsStrikes,
                   onChanged: (newValue) { setState(() {
-                    _checkboxValue = newValue;
+                    _combineFoulsStrikes = newValue;
                   }); },
                   checkColor: AppColors.highlightPrimary,
                 ),
@@ -77,13 +85,18 @@ class _SetupGameState extends State<SetupGame> {
               ],
             ),
           ),
-          if (_checkboxValue == false)
-            Text('super'),
-          LabelAndCount(
-            counterKey: 'foulsStrikesPerOut',
-            labelText: 'Fouls & Strikes Per Out',
-            topMargin: 15
-          ),
+          if (_combineFoulsStrikes == true)
+            LabelAndCount(
+              counterKey: 'foulsStrikesPerOut',
+              labelText: 'Fouls & Strikes Per Out',
+              topMargin: 15
+            ),
+          if (_combineFoulsStrikes == false)
+                LabelAndCount(
+                  counterKey: 'foulsPerOut',
+                  labelText: 'Fouls Per Out',
+                  topMargin: 15,
+                ),
           LabelAndCount(
             counterKey: 'ballsPerWalk',
             labelText: 'Balls Per Walk',
@@ -93,7 +106,17 @@ class _SetupGameState extends State<SetupGame> {
           Container(
             padding: (EdgeInsets.only(top: 25, left: 20, right: 20)),
             child: FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ScoreGame(
+                      awayTeam: gameInformation.teamNames['awayTeam'],
+                      homeTeam: gameInformation.teamNames['homeTeam']
+                    )
+                  ),
+                );
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(0),
@@ -101,7 +124,7 @@ class _SetupGameState extends State<SetupGame> {
               ),
               child: Text(
                 "LET'S GO!",
-                style: TextStyle(color: AppColors.fontPrimary)
+                style: TextStyle(color: AppColors.background)
               ),
               color: AppColors.highlightPrimary,
             ),

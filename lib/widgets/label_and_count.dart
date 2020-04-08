@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:paint_scratch_fe/providers/counter.dart';
+import 'package:paint_scratch_fe/providers/game_information.dart';
 import 'package:paint_scratch_fe/config/colors.dart';
 
 class LabelAndCount extends StatelessWidget {
@@ -13,7 +13,7 @@ class LabelAndCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
+    final gameInformation = Provider.of<GameInformation>(context);
 
     return Container(
       padding: EdgeInsets.only(top: topMargin, left: 20, right: 20),
@@ -39,7 +39,7 @@ class LabelAndCount extends StatelessWidget {
                   width: 30,
                   height: 30,
                   child: FlatButton(
-                    onPressed: () { counter.decrement(counterKey); },
+                    onPressed: () { gameInformation.decrement(counterKey); },
                     child: Text(
                       '-',
                       style: TextStyle(
@@ -56,7 +56,7 @@ class LabelAndCount extends StatelessWidget {
                   width: 50,
                   height: 30,
                   child: Text(
-                    '${counter.counterVariables[counterKey]}',
+                    '${gameInformation.counterVariables[counterKey]}',
                     style: TextStyle(
                       color: AppColors.fontPrimary,
                       fontSize: 18
@@ -67,7 +67,7 @@ class LabelAndCount extends StatelessWidget {
                   width: 30,
                   height: 30,
                   child: FlatButton(
-                    onPressed: () { counter.increment(counterKey); },
+                    onPressed: () { gameInformation.increment(counterKey); },
                     child: Text(
                       '+',
                       style: TextStyle(
