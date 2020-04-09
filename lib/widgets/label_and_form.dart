@@ -11,6 +11,7 @@ class LabelAndForm extends StatelessWidget {
   final Function onEditingComplete;
   final FocusNode focusNode;
   final String teamKey;
+  final TextInputType keyboardType;
 
   LabelAndForm({
     @required this.hintText,
@@ -18,6 +19,7 @@ class LabelAndForm extends StatelessWidget {
     this.textInputAction,
     this.onEditingComplete,
     this.focusNode,
+    this.keyboardType,
   });
 
   @override
@@ -32,6 +34,8 @@ class LabelAndForm extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 5),
             child: TextField(
+              keyboardType: keyboardType,
+              textCapitalization: TextCapitalization.words,
               textInputAction: textInputAction,
               onChanged: (team) {
                 gameInformation.setTeam(teamKey, team);

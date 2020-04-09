@@ -7,6 +7,7 @@ class GameInformation with ChangeNotifier {
     'foulsStrikesPerOut': 4,
     'ballsPerWalk': 4,
     'foulsPerOut': 4,
+    'gameTimeInMinutes': 50
   };
 
   Map<String, String> teamNames = {

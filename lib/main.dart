@@ -13,6 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onPanDown: (_) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },

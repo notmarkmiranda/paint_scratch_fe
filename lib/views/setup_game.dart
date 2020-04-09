@@ -15,12 +15,14 @@ class SetupGame extends StatefulWidget {
 
 class _SetupGameState extends State<SetupGame> {
   FocusNode _homeTeamFocusNode;
+  FocusNode _gameTimeInMinutesNode;
   bool _combineFoulsStrikes;
 
   @override
   void initState() {
     super.initState();
     _homeTeamFocusNode = FocusNode();
+    _gameTimeInMinutesNode = FocusNode();
     _combineFoulsStrikes = true;
   }
 
@@ -53,6 +55,14 @@ class _SetupGameState extends State<SetupGame> {
             hintText: 'Home Team',
             teamKey: 'homeTeam',
             focusNode: _homeTeamFocusNode,
+            textInputAction: TextInputAction.next,
+            onEditingComplete: () => _gameTimeInMinutesNode.requestFocus(),
+          ),
+          LabelAndForm(
+            hintText: 'Game Time In Minutes',
+            teamKey: 'gameTimeInMinutes',
+            focusNode: _gameTimeInMinutesNode,
+            keyboardType: TextInputType.number,
           ),
           LabelAndCount(
             counterKey: 'numberOfInnings',
