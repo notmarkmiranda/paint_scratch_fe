@@ -11,8 +11,8 @@ class GameInformation with ChangeNotifier {
   };
 
   Map<String, String> teamNames = {
-    'awayTeam': '',
-    'homeTeam': '',
+    'awayTeam': 'Away Team',
+    'homeTeam': 'Home Team',
   };
 
   void increment(String key) {

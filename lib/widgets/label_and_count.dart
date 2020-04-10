@@ -16,7 +16,7 @@ class LabelAndCount extends StatelessWidget {
     final gameInformation = Provider.of<GameInformation>(context);
 
     return Container(
-      padding: EdgeInsets.only(top: topMargin, left: 20, right: 20),
+      padding: EdgeInsets.only(top: topMargin),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

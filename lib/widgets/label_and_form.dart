@@ -27,7 +27,7 @@ class LabelAndForm extends StatelessWidget {
     final gameInformation = Provider.of<GameInformation>(context);
 
     return Container(
-      padding: EdgeInsets.only(top: 15, left: 20, right: 20),
+      padding: EdgeInsets.only(top: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
