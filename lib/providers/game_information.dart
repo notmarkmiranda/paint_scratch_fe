@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart';
 
 class GameInformation with ChangeNotifier {
-  Map<String, int> counterVariables = {
+  Map<String, dynamic> counterVariables = {
     'numberOfInnings': 5,
     'outsPerInning': 3,
     'foulsStrikesPerOut': 4,
     'ballsPerWalk': 4,
     'foulsPerOut': 4,
+    'combineBallsStrikes': true,
     'gameTimeInMinutes': 50
   };
 
@@ -29,5 +30,9 @@ class GameInformation with ChangeNotifier {
     teamNames[key] = teamName;
     print(teamNames);
     notifyListeners();
+  }
+
+  void setCombineBallsStrikes(bool combined) {
+
   }
 }

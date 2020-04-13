@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:paint_scratch_fe/config/colors.dart';
 import 'package:paint_scratch_fe/providers/game_information.dart';
+import 'package:paint_scratch_fe/providers/game_score.dart';
 import 'package:paint_scratch_fe/views/score_game.dart';
 import 'package:paint_scratch_fe/widgets/label_and_form.dart';
 import 'package:paint_scratch_fe/widgets/label_and_count.dart';
-import 'package:paint_scratch_fe/config/colors.dart';
-
 
 class SetupGame extends StatefulWidget {
   @override
@@ -122,9 +122,12 @@ class _SetupGameState extends State<SetupGame> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ScoreGame(
-                        awayTeam: gameInformation.teamNames['awayTeam'],
-                        homeTeam: gameInformation.teamNames['homeTeam']
+                      builder: (context) => ChangeNotifierProvider<GameScore>(
+                        create: (context) => GameScore({'strikes': 3}),
+                        child: ScoreGame(
+                          awayTeam: gameInformation.teamNames['awayTeam'],
+                          homeTeam: gameInformation.teamNames['homeTeam']
+                        ),
                       )
                     ),
                   );
