@@ -7,7 +7,7 @@ class GameInformation with ChangeNotifier {
     'foulsStrikesPerOut': 4,
     'ballsPerWalk': 4,
     'foulsPerOut': 4,
-    'combineBallsStrikes': true,
+    'combineFoulsStrikes': true,
     'gameTimeInMinutes': 50
   };
 
@@ -32,7 +32,8 @@ class GameInformation with ChangeNotifier {
     notifyListeners();
   }
 
-  void setCombineBallsStrikes(bool combined) {
-
+  void combineFoulsStrikes(bool newValue) {
+    counterVariables['combineFoulsStrikes'] = newValue;
+    notifyListeners();
   }
 }
