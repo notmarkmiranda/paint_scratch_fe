@@ -108,9 +108,8 @@ class GameScore with ChangeNotifier {
   }
 
   void resetCount({Map incState = null, bool incrementOut = false}) {
-    print(incState);
     Map newState = incState ?? Map.from(state);
-//    Map newState = Map.from(state);
+
     newState['cBalls'] = 0;
     newState['cStrikes'] = 0;
     newState['cFouls'] = 0;

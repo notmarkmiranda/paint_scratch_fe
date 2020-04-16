@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 import 'package:paint_scratch_fe/config/colors.dart';
@@ -8,16 +6,17 @@ class GradientRaisedButton extends StatelessWidget {
   final String buttonText;
   final Color firstColor;
   final Color secondColor;
-  Color textColor = Colors.black;
+  final Color textColor;
+  final Color borderColor;
   final Function onPressed;
 
-  GradientRaisedButton({
-    this.buttonText,
-    this.firstColor,
-    this.secondColor,
-    this.textColor,
-    this.onPressed
-  });
+  GradientRaisedButton(
+      {this.buttonText,
+      this.firstColor,
+      this.secondColor,
+      this.textColor = Colors.white,
+      this.borderColor = Colors.black,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +25,17 @@ class GradientRaisedButton extends StatelessWidget {
       margin: EdgeInsets.all(8),
       child: RaisedButton(
         onPressed: onPressed,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.0)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          side: BorderSide(color: borderColor, width: 1),
+        ),
         padding: EdgeInsets.all(0.0),
         child: Ink(
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [firstColor, secondColor],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-            borderRadius: BorderRadius.circular(1.0)
-          ),
+              gradient: RadialGradient(
+                colors: [firstColor, secondColor],
+              ),
+              borderRadius: BorderRadius.circular(12.0)),
           child: Container(
             constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
             alignment: Alignment.center,

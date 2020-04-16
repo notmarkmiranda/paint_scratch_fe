@@ -6,6 +6,8 @@ import 'package:paint_scratch_fe/config/colors.dart';
 import 'package:paint_scratch_fe/providers/game_score.dart';
 import 'package:paint_scratch_fe/widgets/gradient_raised_button.dart';
 
+import '../main.dart';
+
 class ScoreGame extends StatelessWidget {
   final String awayTeam;
   final String homeTeam;
@@ -30,7 +32,11 @@ class ScoreGame extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 10),
               decoration: BoxDecoration(
                 border: Border(
-                    bottom: BorderSide(width: 0.5, color: Color(0xFFAAAAAA))),
+                  bottom: BorderSide(
+                    width: 1,
+                    color: AppColors.backgroundSecondary,
+                  ),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,11 +141,24 @@ class ScoreGame extends StatelessWidget {
             ),
             // TEAM & SCORES
             Container(
-                height: 60,
+                height: 55,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                 decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[300],
+                      blurRadius: 30.0,
+                      spreadRadius: 20.0,
+                      offset: Offset(10, 10),
+                    )
+                  ],
                   border: Border(
-                      bottom: BorderSide(width: 0.5, color: Color(0xFFAAAAAA))),
+                    bottom: BorderSide(
+                      width: 1,
+                      color: Color(0xFFAAAAAA),
+                    ),
+                  ),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -172,11 +191,17 @@ class ScoreGame extends StatelessWidget {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                                border: Border(
-                                    left: BorderSide(
-                                        width: 0.5, color: Color(0xFFAAAAAA)),
-                                    right: BorderSide(
-                                        width: 0.5, color: Color(0xFFAAAAAA)))),
+                              border: Border(
+                                left: BorderSide(
+                                  width: 1,
+                                  color: Color(0xFFAAAAAA),
+                                ),
+                                right: BorderSide(
+                                  width: 1,
+                                  color: Color(0xFFAAAAAA),
+                                ),
+                              ),
+                            ),
                             width: 45,
                             alignment: Alignment.center,
                             padding: EdgeInsets.all(8),
@@ -198,9 +223,13 @@ class ScoreGame extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             decoration: BoxDecoration(
-                                border: Border(
-                                    right: BorderSide(
-                                        width: 0.5, color: Color(0xFFAAAAAA)))),
+                              border: Border(
+                                right: BorderSide(
+                                  width: 1,
+                                  color: Color(0xFFAAAAAA),
+                                ),
+                              ),
+                            ),
                             width: 45,
                             alignment: Alignment.center,
                             padding: EdgeInsets.all(8),
@@ -241,6 +270,51 @@ class ScoreGame extends StatelessWidget {
                     )
                   ],
                 )),
+            // EDIT & RESET BUTTONS
+            Container(
+              height: 60,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: GradientRaisedButton(
+                      buttonText: 'NEW GAME',
+                      firstColor: Colors.white,
+                      secondColor: Colors.white,
+                      textColor: Colors.red[900],
+                      borderColor: Colors.red[900],
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyApp(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: GradientRaisedButton(
+                      buttonText: 'EDIT COUNT',
+                      firstColor: Colors.grey[100],
+                      secondColor: Colors.grey[100],
+                      textColor: Colors.black,
+                      onPressed: () {
+                        showSimpleCustomDialog(context, gameScore);
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: GradientRaisedButton(
+                      buttonText: 'EDIT SCORE',
+                      firstColor: Colors.grey[100],
+                      secondColor: Colors.grey[100],
+                      textColor: Colors.black,
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
             // MIDDLE SECTION
             Expanded(
               child: Center(
@@ -249,7 +323,7 @@ class ScoreGame extends StatelessWidget {
             ),
             // UNDO / REDO
             Container(
-                height: 40,
+                height: 50,
                 margin: EdgeInsets.only(bottom: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -260,60 +334,91 @@ class ScoreGame extends StatelessWidget {
                           children: <Widget>[],
                         )),
                     Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(children: <Widget>[
+                      flex: 1,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          children: <Widget>[
                             Expanded(
                               child: Container(
-                                  child: RaisedButton(
-                                onPressed: () {
-                                  gameScore.undo();
-                                },
-                                padding: EdgeInsets.all(0.0),
-                                child: Container(
-                                    color: Colors.black38,
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8.0),
+                                      bottomLeft: Radius.circular(8.0),
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(0.0),
+                                  onPressed: () {
+                                    gameScore.undo();
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black38,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8.0),
+                                        bottomLeft: Radius.circular(8.0),
+                                      ),
+                                    ),
                                     constraints: BoxConstraints(
                                         maxWidth: 300.0, minHeight: 50.0),
                                     alignment: Alignment.center,
                                     child: Icon(
                                       Icons.undo,
                                       color: AppColors.background,
-                                    )),
-                              )),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                             Expanded(
                               child: Container(
-                                  child: RaisedButton(
-                                onPressed: () {
-                                  gameScore.redo();
-                                },
-                                padding: EdgeInsets.all(0.0),
-                                child: Container(
-                                    color: Colors.black45,
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(8.0),
+                                      bottomRight: Radius.circular(8.0),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    gameScore.redo();
+                                  },
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black38,
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(8.0),
+                                        bottomRight: Radius.circular(8.0),
+                                      ),
+                                    ),
                                     constraints: BoxConstraints(
                                         maxWidth: 300.0, minHeight: 50.0),
                                     alignment: Alignment.center,
                                     child: Icon(
                                       Icons.redo,
                                       color: AppColors.background,
-                                    )),
-                              )),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ]),
-                        ))
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 )),
             Container(
-                height: 125,
+                height: 100,
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Expanded(
                           child: GradientRaisedButton(
                         buttonText: 'IN PLAY',
-                        firstColor: Colors.purple,
-                        secondColor: Colors.purple[300],
+                        firstColor: Colors.white10,
+                        secondColor: Colors.white10,
                         onPressed: () {
                           gameScore.resetCount();
                         },
@@ -321,8 +426,8 @@ class ScoreGame extends StatelessWidget {
                       Expanded(
                           child: GradientRaisedButton(
                         buttonText: 'RUN SCORED',
-                        firstColor: Colors.green,
-                        secondColor: Colors.green[300],
+                        firstColor: Colors.white10,
+                        secondColor: Colors.white10,
                         onPressed: () {
                           gameScore.scoreRun();
                         },
@@ -330,8 +435,8 @@ class ScoreGame extends StatelessWidget {
                       Expanded(
                           child: GradientRaisedButton(
                         buttonText: 'OUT',
-                        firstColor: Colors.orange,
-                        secondColor: Colors.orange[300],
+                        firstColor: Colors.white10,
+                        secondColor: Colors.white10,
                         onPressed: () {
                           gameScore.resetCount(incrementOut: true);
                         },
@@ -344,15 +449,16 @@ class ScoreGame extends StatelessWidget {
               ),
             ),
             Container(
-                height: 125,
+                height: 100,
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Expanded(
                           child: GradientRaisedButton(
                         buttonText: 'BALL',
-                        firstColor: Colors.blue[700],
-                        secondColor: Colors.blue,
+                        firstColor: Colors.blueGrey,
+                        secondColor: Colors.blueGrey,
+                        textColor: Colors.white,
                         onPressed: () {
                           gameScore.ball();
                         },
@@ -360,8 +466,9 @@ class ScoreGame extends StatelessWidget {
                       Expanded(
                           child: GradientRaisedButton(
                         buttonText: 'STRIKE',
-                        firstColor: Colors.red[700],
-                        secondColor: Colors.red,
+                        firstColor: Colors.blueGrey,
+                        secondColor: Colors.blueGrey,
+                        textColor: Colors.white,
                         onPressed: () {
                           gameScore.strike();
                         },
@@ -369,8 +476,9 @@ class ScoreGame extends StatelessWidget {
                       Expanded(
                         child: GradientRaisedButton(
                           buttonText: 'FOUL',
-                          firstColor: Colors.yellow[700],
-                          secondColor: Colors.yellow,
+                          firstColor: Colors.blueGrey,
+                          secondColor: Colors.blueGrey,
+                          textColor: Colors.white,
                           onPressed: () {
                             gameScore.foul();
                           },
@@ -381,5 +489,218 @@ class ScoreGame extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showSimpleCustomDialog(BuildContext context, GameScore gameScore) {
+    int foulsStrikes = gameScore.state['cFouls'] + gameScore.state['cStrikes'];
+    Dialog simpleDialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+        height: 300.0,
+        width: 300.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          if (gameScore.state['inningTop'])
+                            Icon(Icons.arrow_drop_up),
+                          if (gameScore.state['inningTop'] == false)
+                            Icon(Icons.arrow_drop_down),
+                          Text(
+                            gameScore.state['cInning'].toString(),
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'B ',
+                          ),
+                          Container(
+                            width: 40,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    border: Border.all(
+                                      width: 1.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  child: FlatButton(
+                                    child: Text(
+                                      '+',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    gameScore.state['cBalls'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    border: Border.all(
+                                      width: 1.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  child: FlatButton(
+                                    child: Text(
+                                      '-',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    if (gameScore.state['combineFoulsStrikes'])
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              'S/F ',
+                            ),
+                            Text(foulsStrikes.toString(),
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ))
+                          ],
+                        ),
+                      ),
+                    if (!gameScore.state['combineFoulsStrikes'])
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'S ',
+                                ),
+                                Text(gameScore.state['cStrikes'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'F ',
+                                ),
+                                Text(gameScore.state['cFouls'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'O ',
+                          ),
+                          Text(gameScore.state['cOuts'].toString(),
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ]),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  RaisedButton(
+                    color: Colors.blue,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Okay',
+                      style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  RaisedButton(
+                    color: Colors.red,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Cancel!',
+                      style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(
+        context: context, builder: (BuildContext context) => simpleDialog);
   }
 }
